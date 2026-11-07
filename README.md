@@ -4,6 +4,26 @@ A Discord bot that plays local MP3 and FLAC files and searches Soulseek through 
 
 ## Windows setup
 
+Install Node.js 22.12 or newer and add FFmpeg to PATH. Stop the bot before installing dependencies, then run:
+
+```powershell
+npm.cmd run setup
+```
+
+The setup script installs dependencies, downloads slskd 0.26.2 for Windows x64 or ARM64, creates the music directories, and generates local configuration with a shared API key. Existing configuration and credentials are preserved. It does not change the firewall or start either service.
+
+On a fresh installation, fill in `DISCORD_TOKEN` in `.env` and the Soulseek username and password in `.local/data/slskd.yml`. The web interface password is stored under `web.authentication` in that YAML file. The script never prints credentials.
+
+To check prerequisites and existing files without installing or changing anything:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\setup.ps1 -CheckOnly
+```
+
+The execution policy option applies only to that PowerShell process; it does not change your system policy.
+
+### Manual setup
+
 1. Install Node.js 22.12 or newer and add FFmpeg to PATH. Run `npm.cmd ci` to install the bot dependencies, including Opus and DAVE support.
 2. Copy `.env.example` to `.env` if it does not exist. Set `DISCORD_TOKEN`, `SLSKD_URL`, and `SLSKD_API_KEY`.
 3. Download the Windows binary from the [slskd releases](https://github.com/slskd/slskd/releases) and extract it into `.local/slskd`. The executable and local configuration are not included in this repository. On first launch, slskd creates `.local/data/slskd.yml`. Stop it, enter your Soulseek username and password, and configure a `readwrite` API key under `web.authentication.api_keys` that matches `SLSKD_API_KEY` in `.env`. See the [configuration guide](https://github.com/slskd/slskd/blob/master/docs/config.md) for the YAML structure. Keep both configuration files private.
