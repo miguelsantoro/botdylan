@@ -1,3 +1,8 @@
+import { handleSearch } from "./soulseek.js";
+import {
+  handleDownload,
+  handleDownloads
+} from "./downloads.js";
 import {
   getAlbums,
   findAlbum,
@@ -15,6 +20,18 @@ import {
 
 export async function handle(message) {
   const content = message.content.trim();
+
+  if (content === "!downloads") return handleDownloads(message);
+
+  if (/^!download(?:\s|$)/i.test(content)) {
+    const number = content.slice(9).trim();
+    return handleDownload(message, number);
+  }
+
+  if (/^!search(?:\s|$)/i.test(content)) {
+    const query = content.slice(7).trim();
+    return handleSearch(message, query);
+  }
 
   if (content === "!albums") {
     const albums = getAlbums();

@@ -2,6 +2,7 @@ import fs from "fs";
 import Fuse from "fuse.js";
 
 export function getAlbums() {
+  if (!fs.existsSync("./songs")) return [];
   const folders = fs.readdirSync("./songs", { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name);

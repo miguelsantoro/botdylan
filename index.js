@@ -19,7 +19,7 @@ client.on("ready", () => {
 
 client.on("messageCreate", (message) => {
   if (message.author.bot) return;
-  handle(message);
+  handle(message).catch(() => console.error("Could not process the Discord command."));
 });
 
 client.login(process.env.DISCORD_TOKEN);
